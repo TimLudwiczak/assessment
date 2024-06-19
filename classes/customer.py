@@ -4,30 +4,43 @@ import csv
 class Customer():
     customers = []
 
-    def __init__(self, _id, first_name, last_name, _account_type, _current_video_rentals):
+    def __init__(self, _id, first_name, last_name, account_type, current_video_rentals = None):
 
         self._id = _id
-        self._account_type = _account_type
+        self._account_type = account_type
         self.first_name = first_name
         self.last_name = last_name
-        self._current_video_rentals = _current_video_rentals
+        self.current_video_rentals = current_video_rentals if current_video_rentals is not None else []
     
     @property
     def id(self):
         return self._id
-    
+    @id.setter
+    def id(self, value):
+        self._id = value
+
     @classmethod
-    def create_customer_id(cls, _id, first_name, last_name, _account_type):
-        return cls(_id, first_name, last_name, _account_type)
+    def create_customer(cls, _id, first_name, last_name, account_type, current_video_rentals=None):
+        if isinstance(current_video_rentals, str):
+            current_video_rentals = current_video_rentals.split('/') if current_video_rentals else []
+        return cls(_id, first_name, last_name, account_type, current_video_rentals)
     
     @classmethod
     def load_customers(cls, csv_file):
-        with open(csv_file, 'r') as file:
+        with open(csv_file, 'r', newline='') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                customer = cls.create_customer(row['id'], row['first_name'], row['last_name'], row['account_type'])
+                customer = cls.create_customer(
+                    row['id'],
+                    row['first_name'],
+                    row['last_name'],
+                    row['account_type'],
+                    'current_video_rentals'.split('/') if 'current_video_rentals' in row else []
+                )
                 cls.customers.append(customer)
-            cls.customers = list(reader)
         return cls.customers
 
-Customer.load_customers('customers.csv')
+customers =Customer.load_customers('customers.csv')
+
+for customer in customers:
+    print(f'ID: {customer.id}, Name: {customer.first_name} {customer.last_name}, Account Type: {customer._account_type}, Rentals: {customer._current_video_rentals}')
