@@ -1,15 +1,26 @@
 # Write your independent Customer account type classes here
-class Customer_sx:
-    pass
+from classes.customer import Customer
 
+class Customer_sx:
+    max_rental = 1
+    def rent(self, rating):
+        return len(self._current_video_rentals) < self.max_rental
 
 class Customer_px:
-    pass
-
+    max_rental = 3
+    def can_rent(self, rating):
+        if rating == "R":
+            return False
+        return len(self.rentals) < self.max_rental
 
 class Customer_sf:
-    pass
-
-
+    max_rental = 1
+    def rent(self, rating):
+        return len(self._current_video_rentals) < self.max_rental
+   
 class Customer_pf:
-    pass
+    max_rental = 3
+    def can_rent(self, rating):
+        if rating == "R":
+            return False
+        return len(self.rentals) < self.max_rental
