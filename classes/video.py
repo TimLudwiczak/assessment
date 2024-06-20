@@ -7,3 +7,4 @@ class Video:
         self.vid_rating = vid_rating
         self.vid_release = vid_release
         self.vid_copies = vid_copies
+    def 
