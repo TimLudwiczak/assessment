@@ -23,7 +23,7 @@ class Customer():
         return self._current_video_rentals
     
     @current_video_rentals.setter
-    def current_video_rentals(self, vid_rentals):
+    def _current_video_rentals(self, vid_rentals):
         if not isinstance(vid_rentals , list):
             return ValueError('Current Video Rentals should only be a list')
         self._current_video_rentals = vid_rentals
@@ -52,8 +52,7 @@ class Customer():
                 )
                 cls.customers.append(customer)
         return cls.customers
-customers_path = 'assessment/data/customers.csv'
 customers = Customer.load_customers('customers.csv')
 
 for customer in customers:
-    print(f'ID: {customer.id}, Name: {customer.first_name} {customer.last_name}, Account Type: {customer._account_type}, Rentals: {customer.current_video_rentals}')
+    print(f'ID: {customer.id}, Name: {customer.first_name} {customer.last_name}, Account Type: {customer._account_type}, Rentals: {customer._current_video_rentals}')
