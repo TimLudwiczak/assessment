@@ -27,6 +27,18 @@ class Customer():
         if not isinstance(vid_rentals , list):
             return ValueError('Current Video Rentals should only be a list')
         self._current_video_rentals = vid_rentals
+
+    
+    def can_rent(self, video):
+        if self.account_type in ['sx', 'sf'] and len(self.current_video_rentals) == 0:
+            if self.account_type == 'sf' and video.vid_rating == 'R':
+                return False
+            return True
+        elif self.account_type in ['px', 'pf'] and len(self.current_video_rentals) < 3:
+            if self.account_type == 'pf' and video.vid_rating == 'R':
+                return False
+            return True
+        return False
     
     @classmethod
     def create_customer(cls, _id, first_name, last_name, account_type, current_video_rentals=None):
@@ -52,7 +64,7 @@ class Customer():
                 )
                 cls.customers.append(customer)
         return cls.customers
-customers = Customer.load_customers('customers.csv')
+# customers = Customer.load_customers('customers.csv')
 
-for customer in customers:
-    print(f'ID: {customer.id}, Name: {customer.first_name} {customer.last_name}, Account Type: {customer._account_type}, Rentals: {customer._current_video_rentals}')
+# for customer in customers:
+#     print(f'ID: {customer.id}, Name: {customer.first_name} {customer.last_name}, Account Type: {customer._account_type}, Rentals: {customer._current_video_rentals}')

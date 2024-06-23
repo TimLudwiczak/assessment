@@ -34,5 +34,3 @@ class Video_Inventory(Video):
                     vid_copies=int(row['vid_copies'])
                 ))
         return inventory
-
-print(inventory)

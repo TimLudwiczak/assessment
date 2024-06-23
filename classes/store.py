@@ -1,7 +1,7 @@
 # Write your Store Class here
 
 from classes.video import Video_Inventory
-from customer import Customer
+from classes.customer import Customer
 
 class Store:
 
@@ -10,7 +10,7 @@ class Store:
     def __init__(self,name):
         self.name = name
         self.rentals_inventory = Video_Inventory.objects()
-        self.rental_members = Customer.objects()
+        self.rental_customers= Customer.objects()
         for x in self.rentals_inventory:
             Store.current_video_inventory.append(x.title)
         for y in range(len(Store.current_video_inventory)):
@@ -18,20 +18,20 @@ class Store:
         for z in self.rental_members:
             Store.active_member_list.append(z.id)
 
-    def view_rental_list(self):
+    def view_rentals(self):
         print('\nFull Store Video Inventory:\n')
         for vid in self.rentals_inventory:
                 print(f"{vid.title}")
-        print("\n\nMovies Currently Available to Rent:\n")
+        print("\nMovies Currently Available to Rent:\n")
         for vid in self.rentals_inventory:
             if int(vid.copies_available) > 0:
                 print(f"{vid.title}")
                 print(f"Copies Available: {vid.copies_available}\n")
     
-    def view_member_list(self):
+    def view_customers(self):
         print('\n')
-        for mem in self.rental_members:
-            print(f"{mem.__dict__}")
+        for cust in self.rental_customers:
+            print(f"{cust.__dict__}")
 
     def currently_rented(self,customer_id):
         if str(customer_id) in Store.active_member_list:
@@ -117,7 +117,7 @@ class Store:
                     for m in range(len(renter.current_video_rentals)):
                         renter.current_video_rentals[m] = renter.current_video_rentals[m].lower().title()
                     if title_search.lower().title() not in renter.current_video_rentals:
-                        print("\nYou don't have a copy of this film to return!\n")
+                        print("\nYou don't have a copy\n")
                         break
                     for film_title in renter.current_video_rentals:
                         if title_search.lower() == film_title.lower():
